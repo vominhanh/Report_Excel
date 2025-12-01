@@ -88,7 +88,7 @@ class ExcelProcessor:
                                 else:
                                     self.data[sku][year] = pd.concat([self.data[sku][year], sku_data], ignore_index=True)
             
-            # Chỉ giữ lại SKU có dữ liệu ở CẢ 2024 VÀ 2025
+            # Lấy tất cả dữ liệu SKU (có thể chỉ có 2024 hoặc chỉ có 2025)
             filtered_data = {}
             filtered_skus = []
             
@@ -96,7 +96,8 @@ class ExcelProcessor:
                 has_2024 = not sku_data['2024'].empty
                 has_2025 = not sku_data['2025'].empty
                 
-                if has_2024 and has_2025:
+                # Giữ lại SKU nếu có ít nhất 1 năm có dữ liệu
+                if has_2024 or has_2025:
                     filtered_data[sku] = sku_data
                     filtered_skus.append(sku)
             
